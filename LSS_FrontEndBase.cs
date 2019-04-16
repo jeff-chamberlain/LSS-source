@@ -188,7 +188,7 @@ namespace LSS
 						CopyTextureImporterProperties (texture, newTexture); // Ensure new texture takes on same properties as origional texture.
 
 						AssetDatabase.ImportAsset( AssetDatabase.GetAssetPath( newTexture ) ); // Re-import texture file so it will be successfully compressed to desired format.
-						EditorUtility.CompressTexture (newTexture, texture.format, TextureCompressionQuality.Best); // Now compress the texture.
+						EditorUtility.CompressTexture (newTexture, texture.format, UnityEditor.TextureCompressionQuality.Best); // Now compress the texture.
 
 						textures [i] = newTexture.name; // Set the new texture as the reference in the Json file.
 						Resources.UnloadAsset(newTexture); // Since we will no longer be processing on this texture it can be unloaded.
