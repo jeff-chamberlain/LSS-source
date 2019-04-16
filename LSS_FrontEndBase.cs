@@ -157,6 +157,11 @@ namespace LSS
 		}
 			
 		public void CopyTextureToResources (string[] textures) {
+			if ( textures == null )
+			{
+				return;
+			}
+			
 			for (int i = 0; i < textures.Length; i++) {
 				if (!GetInputResoursesValid(textures, i)) {
 					continue;
