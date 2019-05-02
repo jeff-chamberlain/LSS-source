@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 
@@ -28,10 +29,10 @@ namespace LSS
 		[Tooltip("The folder name relative to Assets/Resources/ where to store or retrieve the resources data files.")]
 		private string m_resourceStorageFolder = "LightMapData_1";
 		private string m_resourceTemporaryFolder;
-		public string resourceFolder {get { return m_resourceStorageFolder; } set { m_resourceStorageFolder = value; }}
+        public string resourceFolder { get { return "Lightmaps/" + SceneManager.GetActiveScene ().name + "/" + m_resourceStorageFolder; } set { m_resourceStorageFolder = value; } }
 
-		//TODO : enable logs only when verbose enabled
-		[SerializeField] 
+        //TODO : enable logs only when verbose enabled
+        [SerializeField] 
 		[Tooltip("Print debugging information to console upon encountering missing or corrupt resources.")]
 		private bool m_isVerbose = false;
 
