@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 using LSS_Components;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -47,7 +48,7 @@ namespace LSS
 		//public static int managerInstanceID { get { return m_managerInstanceID; }}
 
 		[SerializeField]
-		private List<string> m_searchTags;
+		private List<string> m_searchTags = new List<string> ();
 		public List<string> searchTags { get { return m_searchTags; } }
 		public void OnSearchTagChange () {
 			var tags = new List<string> (); // Tags from all LSS_UID components.
@@ -83,15 +84,27 @@ namespace LSS
 		public void Awake () {
 			GenerateUniqueID ();
 			SetManagerInstanceID ();
-		}
+        }
 
-		public void SetManagerInstanceID () {
+        void OnEnable ()
+        {
+            //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        }
+
+        void OnDisable ()
+        {
+            //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        }
+
+        public void SetManagerInstanceID () {
 			if (GetComponent<LSS_FrontEnd> ()) {
 				managerInstance = GetComponent<LSS_FrontEnd> ().gameObject;
 			}
 		}
 
-		public void OnLevelWasLoaded () {
+		public void OnLevelFinishedLoading ( Scene scene, LoadSceneMode mode ) {
 			SetManagerInstanceID ();
 			allowRecreate = true;
 		}

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 
@@ -29,10 +29,10 @@ namespace LSS
 		[Tooltip("The folder name relative to Assets/Resources/ where to store or retrieve the resources data files.")]
 		private string m_resourceStorageFolder = "LightMapData_1";
 		private string m_resourceTemporaryFolder;
-        public string resourceFolder { get { return "Lightmaps/" + SceneManager.GetActiveScene ().name + "/" + m_resourceStorageFolder; } set { m_resourceStorageFolder = value; } }
+		public string resourceFolder {get { return "Lightmaps/" + SceneManager.GetActiveScene().name + "/" + m_resourceStorageFolder; } set { m_resourceStorageFolder = value; }}
 
-        //TODO : enable logs only when verbose enabled
-        [SerializeField] 
+		//TODO : enable logs only when verbose enabled
+		[SerializeField] 
 		[Tooltip("Print debugging information to console upon encountering missing or corrupt resources.")]
 		private bool m_isVerbose = false;
 
@@ -248,7 +248,7 @@ namespace LSS
 
 		public void CreateResourcesTemporaryDirectory() {
 			if (!CheckResourcesTemporaryDirectoryExists ()) {
-				m_resourceTemporaryFolder = m_resourceStorageFolder + "_" + System.Guid.NewGuid();
+				m_resourceTemporaryFolder = resourceFolder + "_" + System.Guid.NewGuid();
 				Directory.CreateDirectory (GetResourcesTemporaryDirectory());
 			}
 		}
@@ -265,7 +265,7 @@ namespace LSS
 
 
 		public string GetResourcesStorageDirectory () {
-			return  GetResourcesDirectory(m_resourceStorageFolder); // The directory where data resides.
+			return  GetResourcesDirectory(resourceFolder); // The directory where data resides.
 		}
 		public string GetResourcesTemporaryDirectory ()	{
 			return GetResourcesDirectory(m_resourceTemporaryFolder); // The directory where data will be kept until all processing is finished.
@@ -314,7 +314,7 @@ namespace LSS
 
 		public string GetJsonResourcePath (string f) { //Expects just the file name without the extention, and will return the path to the resource from the currently set m_resourceFolder
 			string baseName = f.Substring(0, f.Length - Path.GetExtension(f).Length);
-			return Path.Combine (m_resourceStorageFolder, baseName);
+			return Path.Combine (resourceFolder, baseName);
 		}
 
 		public LSS_Models.LightingScenarioModel LoadJsonFile () {
